@@ -100,3 +100,14 @@ body {
 .center-container__content__button__add{
     width: ;
 }
+@media screen and (max-width: 768px) {
+    .center-container__img-container__img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .center-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+}
