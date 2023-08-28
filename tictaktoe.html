@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    *{
+        background-color:aqua;
+    }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-gap: 2px;
+    justify-content: center;
+    background-color:aqua;
+    margin:40px;
+  }
+
+  .cell {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    border: 1px solid black;
+    cursor: pointer;
+    
+  }
+  .yu{
+    justify-content: center;
+    text-align:center;
+    color: red;
+  }
+</style>
+</head>
+<body>
+<h1 class="yu">tic tac toe</h1>
+<div class="board" id="board"></div>
+
+
+<script>
+const boardElement = document.getElementById('board');
+const cells = [];
+
+let currentPlayer = 'X';
+let isGameOver = false;
+
+function checkWinner() {
+  const winningCombos = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+    [0, 4, 8], [2, 4, 6]           // Diagonals
+  ];
+
+  for (const combo of winningCombos) {
+    const [a, b, c] = combo;
+    if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+      return cells[a];
+    }
+  }
+
+  if (cells.every(cell => cell !== null)) {
+    return 'draw';
+  }
+
+  return null;
+}
+
+function handleClick(index) {
+  if (isGameOver || cells[index] !== null) {
+    return;
+  }
+
+  cells[index] = currentPlayer;
+  boardElement.children[index].textContent = currentPlayer;
+
+  const winner = checkWinner();
+  if (winner) {
+    isGameOver = true;
+    if (winner === 'draw') {
+      alert('It\'s a draw!');
+    } else {
+      alert(`Player ${winner} wins!`);
+    }
+  } else {
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  }
+}
+
+function initializeGame() {
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.addEventListener('click', () => handleClick(i));
+    cells.push(null);
+    boardElement.appendChild(cell);
+  }
+}
+
+initializeGame();
+</script>
+
+</body>
+</html>
